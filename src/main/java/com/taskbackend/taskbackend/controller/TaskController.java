@@ -17,29 +17,29 @@ import com.taskbackend.taskbackend.utils.DateUtils;
 import com.taskbackend.taskbackend.utils.ValidationException;
 
 @RestController
-@RequestMapping(value ="/tasks")
+@RequestMapping(value ="/todo")
 public class TaskController {
 
 	@Autowired
-	private TaskRepo tasksRepo;
+	private TaskRepo todoRepo;
 	
 	@GetMapping
 	public List<Task> findAll() {
-		return tasksRepo.findAll();
+		return todoRepo.findAll();
 	}
 	
 	@PostMapping
-	public ResponseEntity<Task> save(@RequestBody Task tasks) throws ValidationException {
-		if(tasks.getTask() == null || tasks.getTask() == "") {
+	public ResponseEntity<Task> save(@RequestBody Task todo) throws ValidationException {
+		if(todo.getTask() == null || todo.getTask() == "") {
 			throw new ValidationException("Fill the task description");
 		}
-		if(tasks.getDueDate() == null) {
+		if(todo.getDueDate() == null) {
 			throw new ValidationException("Fill the due date");
 		}
-		if(!DateUtils.isEqualOrFutureDate(tasks.getDueDate())) {
+		if(!DateUtils.isEqualOrFutureDate(todo.getDueDate())) {
 			throw new ValidationException("Due date must not be in past");
 		}
-		Task saved = tasksRepo.save(tasks);
+		Task saved = todoRepo.save(todo);
 		return new ResponseEntity<Task>(saved, HttpStatus.CREATED);
 	}
 }
