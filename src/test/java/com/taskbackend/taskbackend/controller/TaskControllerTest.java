@@ -67,7 +67,7 @@ public class TaskControllerTest {
 	public void naoDeveSalvarTarefaComDataPassada() {
 		try {		
 			todo.setTask("Descricao");
-			todo.setDueDate(LocalDate.of(2030,01,01));
+			todo.setDueDate(LocalDate.of(2010,01,01));
 			controller.save(todo);
 			
 			Assertions.fail("Não deveria chaegar nesnte ponto");
