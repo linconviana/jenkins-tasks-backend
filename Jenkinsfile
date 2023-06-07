@@ -11,15 +11,14 @@ pipeline {
                 bat 'mvn test'
             }
         }
-        /*stage ('Sonar Analysis') {
-            enviroment {
-                scannerHome = tool 'SONAR_SCANNER'
-            }
+        stage ('Deploy Backend') {
             steps {
-                bat "${scannerHome}/bin/sonar-scanner -e"
+                dir('backend') {
+                    deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')], contextPath: 'task-backend-0.0.1-SNAPSHOT', war: 'target/task-backend-0.0.1-SNAPSHOT.war'
+                }
             }
-        }*/
-        stage ('Deploy Frontend') {
+        }
+        /*stage ('Deploy Frontend') {
             steps {
                 dir('frontend') {
                     git credentialsId: 'github_login', url: 'https://github.com/linconviana/jenkins-tasks-frontend'
@@ -27,6 +26,6 @@ pipeline {
                     deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target/tasks.war'
                 }
             }
-        }
+        }*/
     }
 }
